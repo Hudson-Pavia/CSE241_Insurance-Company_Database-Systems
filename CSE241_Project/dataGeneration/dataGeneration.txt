@@ -1,0 +1,425 @@
+drop table family;
+drop table customer;
+drop table car_policy;
+drop table home_policy;
+drop table health_policy;
+drop table policy;
+drop table purchased;
+drop table credit_card;
+drop table debit_card;
+drop table direct_debit;
+drop table payments;
+drop table completes;
+drop table car_item;
+drop table house_item;
+drop table possessions;
+drop table insures;
+drop table pays_off;
+drop table agent;
+drop table adjuster;
+drop table employee;
+drop table cancellations;
+drop table cancelled;
+drop table theft;
+drop table flood;
+drop table fire;
+drop table claim_paid;
+drop table claim;
+drop table makes;
+drop table third_party;
+drop table outsource;
+drop table assigned;
+drop table helps_with;
+drop table adjusts;
+drop table tied_to;
+drop table verify_claim;
+drop table covered;
+
+/* Customer */
+Create table customer (
+ID varchar(8),
+name varchar(40),
+Age numeric(3,0),
+primary key(ID)
+ );
+ 
+insert into Customer (id, name, age) values ('1','Roww Hudghton', 39);
+insert into Customer (id, name, age) values ('2', 'Vivie Losebie', 39);
+insert into Customer (id, name, age) values ('3', 'Analiese Rowett', 50);
+insert into Customer (id, name, age) values ('4', 'Joey Allberry', 83);
+insert into Customer (id, name, age) values ('5', 'Lurleen Prigmore', 51);
+insert into Customer (id, name, age) values ('6', 'Norina Kless', 1);
+insert into Customer (id, name, age) values ('7', 'Jayne Kelsell', 83);
+insert into Customer (id, name, age) values ('8', 'Pancho Mansel', 8);
+insert into Customer (id, name, age) values ('9', 'Sullivan Cawse', 44);
+insert into Customer (id, name, age) values ('10', 'Bethina Stiff', 14);
+
+/* Family */
+Create table Family (
+family_id varchar(8),
+ID varchar(8),
+Members Numeric(2,0),
+primary key(family_id),
+Foreign key (ID) references customer);
+
+insert into family (family_id,id, members) values ('1','8', 4);
+insert into family (family_id,id, members) values ('2','9', 3);
+insert into family (family_id,id, members) values ('3','10', 5);
+
+/* Policy */
+Create table policy (
+policy_id varchar(8),
+price Numeric(10,2),
+dateof_origin Date,
+primary key(policy_id));
+
+insert into policy (policy_id, price, dateof_origin) values ('1', 36743.66, '29-Apr-2020');
+insert into policy (policy_id, price, dateof_origin) values ('2', 94621.14, '30-Aug-2020');
+insert into policy (policy_id, price, dateof_origin) values ('3', 48740.97, '11-May-2020');
+insert into policy (policy_id, price, dateof_origin) values ('4', 42849.9, '31-May-2020');
+insert into policy (policy_id, price, dateof_origin) values ('5', 9069.94, '17-Nov-2020');
+insert into policy (policy_id, price, dateof_origin) values ('6', 55394.0, '19-Sep-2020');
+insert into policy (policy_id, price, dateof_origin) values ('7', 23689.15, '21-Mar-2021');
+    
+/* Car */
+Create table car_policy (
+policy_id varchar(8),
+car_id varchar(8),
+primary key(car_id),
+Foreign key (policy_id) references policy);
+
+insert into car_policy (policy_id, car_id) values ('3', '1');
+insert into car_policy (policy_id, car_id) values ('5', '2');
+insert into car_policy (policy_id, car_id) values ('4', '3');
+insert into car_policy (policy_id, car_id) values ('7', '4');
+
+
+/* Home */
+Create table home_policy (
+policy_id varchar(8),
+home_id varchar(8),
+primary key(home_id),
+Foreign key (policy_id) references policy);
+
+insert into home_policy (policy_id, home_id) values ('1', '1');
+insert into home_policy (policy_id, home_id) values ('2', '2');
+
+/* Health */
+Create table health_policy(
+policy_id varchar(8),
+health_id varchar(8),
+Deductible varchar(100),
+Primary key(health_id),
+Foreign key (policy_id) references policy);
+insert into health_policy (policy_id, health_id, deductible) values ('6', '1', '[realistic deductibile]');
+
+/* purchased */
+Create table purchased(
+ID varchar(8),
+policy_id varchar(8),
+Primary key (ID, policy_id));
+
+insert into purchased (ID, policy_id) values ('1', '1');
+insert into purchased (ID, policy_id) values ('1', '3');
+insert into purchased (ID, policy_id) values ('2', '5');
+insert into purchased (ID, policy_id) values ('2', '6');
+insert into purchased (ID, policy_id) values ('3', '2');
+insert into purchased (ID, policy_id) values ('4', '7');
+insert into purchased (ID, policy_id) values ('5', '4');
+insert into purchased (ID, policy_id) values ('5', '1');
+insert into purchased (ID, policy_id) values ('5', '6');
+insert into purchased (ID, policy_id) values ('6', '3');
+insert into purchased (ID, policy_id) values ('7', '5');
+insert into purchased (ID, policy_id) values ('8', '4');
+insert into purchased (ID, policy_id) values ('8', '2');
+insert into purchased (ID, policy_id) values ('8', '6');
+insert into purchased (ID, policy_id) values ('9', '7');
+insert into purchased (ID, policy_id) values ('9', '1');
+insert into purchased (ID, policy_id) values ('10', '3');
+
+
+/* Payments */
+Create table payments (
+payment_id varchar(8),
+date_payed Date,
+Amount numeric(7,2),
+Primary key (payment_id));
+
+insert into payments (payment_id, date_payed, amount) values ('1', '01-Dec-2020', 6047.43);
+insert into payments (payment_id, date_payed, amount) values ('2', '15-Nov-2020', 3201.97);
+insert into payments (payment_id, date_payed, amount) values ('3', '29-Sep-2020', 8163.58);
+insert into payments (payment_id, date_payed, amount) values ('4', '03-Sep-2020', 1122.38);
+insert into payments (payment_id, date_payed, amount) values ('5', '22-Nov-2020', 53238.47);
+
+/* Credit Card */
+Create table credit_card (
+credit_num varchar(16),
+payment_id varchar(8),
+Interest_rate varchar(4),
+Primary key (credit_num),
+Foreign key (payment_id) references payments);
+
+insert into credit_card (credit_num, payment_id, interest_rate) values ('5100139915429926', '1', '5.2%');
+insert into credit_card (credit_num, payment_id, interest_rate) values ('5010121996942489', '5', '5.5%');
+
+/* debit card*/
+Create table debit_card (
+debit_num varchar(16),
+payment_id varchar(8),
+Primary key (debit_num),
+Foreign key (payment_id) references payments);
+
+insert into debit_card (debit_num, payment_id) values ('2101135675429926', '2');
+insert into debit_card (debit_num, payment_id) values ('9010145596782989', '3');
+
+/* direct_debit */
+Create table direct_debit(
+routing_num varchar(20),
+payment_id varchar(8),
+Primary key (routing_num),
+Foreign key (payment_id) references payments);
+
+insert into direct_debit (routing_num, payment_id) values ('623852453', '4');
+
+/* completes */
+Create table completes (
+Payment_id varchar(8) not null,
+ID varchar(8) not null,
+Primary key (payment_id));
+
+insert into completes (payment_id, id) values ('1', '3'); 
+insert into completes (payment_id, id) values ('2', '7'); 
+insert into completes (payment_id, id) values ('3', '1'); 
+insert into completes (payment_id, id) values ('4', '3'); 
+insert into completes (payment_id, id) values ('5', '6');
+
+/* possessions */
+Create table possessions (
+possession_id varchar(8),
+Primary key (possession_id));
+
+insert into possessions (possession_id) values ('1');
+insert into possessions (possession_id) values ('2');
+insert into possessions (possession_id) values ('3');
+
+/* car */
+Create  table car_item (
+possession_id varchar(8),
+VIN varchar(17),
+Make varchar(30),
+Model varchar(30),
+Year numeric(4,0),
+primary key (VIN),
+foreign key (possession_id) references possessions);
+
+insert into car_item (possession_id, VIN, make, model, year) values ('1', '3yd9j5l67jd9f245m','Ford', 'F-150', 2020);
+
+/* house */
+Create table house_item (
+possession_id varchar(8),
+address varchar(50),
+primary key (address),
+foreign key (possession_id) references possessions);
+
+insert into house_item (possession_id, address) values ('2', '5647 thomas court');
+insert into house_item (possession_id, address) values ('3', '221 farrington square');
+
+/* insures */
+Create table insures(
+policy_id varchar(8),
+Possession_id varchar(8),
+Primary key(possession_id));
+
+insert into insures (policy_id, possession_id) values ('3', '1');
+insert into insures (policy_id, possession_id) values ('1', '2');
+insert into insures (policy_id, possession_id) values ('2', '3');
+    
+/* pays_off */
+Create table pays_off(
+policy_id varchar(8),
+payment_id varchar(8),
+Primary key (payment_id));
+
+insert into pays_off (policy_id, payment_id) values ('3', '1');
+insert into pays_off (policy_id, payment_id) values ('5', '2');
+insert into pays_off (policy_id, payment_id) values ('1', '3'); 
+insert into pays_off (policy_id, payment_id) values ('2', '4');
+insert into pays_off (policy_id, payment_id) values ('3','5');
+
+/* Employee */
+Create table employee (
+employee_id varchar(8),
+Name varchar(50),
+Salary numeric(7,0),
+Primary key (employee_id));
+
+insert into employee (employee_id, name, salary) values ('1', 'Phil Suffe', 80797);
+insert into employee (employee_id, name, salary) values ('2', 'Netty Daish', 49061);
+insert into employee (employee_id, name, salary) values ('3', 'Vonni Rait', 93286);
+
+/* agent */
+Create table agent (
+agent_id varchar(8),
+employee_id varchar(8),
+Primary key (agent_id),
+Foreign key (employee_id) references employee);
+
+insert into agent (agent_id, employee_id) values ('1', '1');
+insert into agent (agent_id, employee_id) values ('2', '2');
+
+/* Adjuster */
+Create table adjuster (
+adjuster_id varchar(8),
+employee_id varchar(8),
+Primary key (adjuster_id),
+Foreign key (employee_id) references employee);
+
+insert into adjuster (adjuster_id, employee_id) values ('1', '3');
+
+/* cancellations */
+Create table cancellations (
+cancel_id varchar(8),
+date_cancelled Date,
+Primary key (cancel_id));
+
+insert into cancellations (cancel_id, date_cancelled) values ('1', '12-Jul-20');
+
+/* cancelled */
+Create table cancelled(
+policy_id varchar(8),
+cancel_id varchar(8),
+Primary key (policy_id));
+
+insert into cancelled (policy_id, cancel_id) values ('4', '1');
+
+/* claim */
+Create table claim (
+claim_id varchar(8),
+descript varchar(250),
+claim_date Date,
+Primary key (claim_id));
+
+insert into claim (claim_id, descript, claim_date) values ('1', 'I was mugged walking to buy a pet fungus', '21-Mar-21');
+insert into claim (claim_id, descript, claim_date) values ('2', 'I was digging for oil in my backyard and broke the water main. My hole house is underwater', '1-Apr-21');
+insert into claim (claim_id, descript, claim_date) values ('3', 'My dog knocked over the hookah and it burnt my house down', '5-Apr-21');
+
+/* theft */
+Create table theft(
+claim_id varchar(8),
+theft_id varchar(8),
+police_report varchar(500),
+Primary key (theft_id),
+Foreign key (claim_id) references claim);
+
+insert into theft (claim_id, theft_id, police_report) values ('1', '1', 'Who the heck buys a pet fungus. Anyways yes this man was mugged and his car was jacked');
+
+/* flood */
+Create table flood(
+claim_id varchar(8),
+flood_id varchar(8),
+Primary key (flood_id),
+Foreign key (claim_id) references claim);
+
+insert into flood (claim_id, flood_id) values ('2', '1');
+
+/* fire */
+Create table fire(
+claim_id varchar(8),
+fire_id varchar(8),
+Primary key (fire_id),
+Foreign key (claim_id) references claim);
+
+insert into fire (claim_id, fire_id) values ('3','1');
+
+/* makes*/
+Create table makes(
+ID varchar(8),
+claim_id varchar(8),
+Primary key (claim_id));
+
+insert into makes (id, claim_id) values ('1', '1');
+insert into makes (id, claim_id) values ('3', '2');
+insert into makes (id, claim_id) values ('5', '3');
+
+/* third_party */
+Create table third_party (
+outsource_id varchar(8),
+company_name varchar(50),
+type_company varchar(30),
+phone_number varchar(12),
+Primary key (outsource_id));
+
+insert into third_party (outsource_id, company_name, type_company, phone_number) values ('1', 'Peter Pipers', 'home repair', '585-757-0331');
+
+/* outsource */
+Create table outsource(
+outsource_id varchar(8),
+claim_id varchar(8),
+Primary key (outsource_id));
+
+insert into outsource (outsource_id, claim_id) values ('1', '3');
+
+/* Assgined*/
+Create table assigned(
+ID varchar(8),
+agent_id varchar(8),
+Primary key (ID));
+
+insert into assigned (id, agent_id) values ('1', '2');
+insert into assigned (id, agent_id) values ('3', '1');
+insert into assigned (id, agent_id) values ('5', '1');
+
+/* Helps_with */
+Create table helps_with(
+claim_id varchar(8),
+agent_id varchar(8),
+Primary key (claim_id));
+
+insert into helps_with(claim_id, agent_id) values ('1', '2');
+insert into helps_with(claim_id, agent_id) values ('2', '1');
+insert into helps_with(claim_id, agent_id) values ('3', '1');
+
+/* adjusts */
+Create table adjusts(
+claim_id varchar(8),
+adjuster_id varchar(8),
+Primary key (claim_id));
+
+insert into adjusts (claim_id, adjuster_id) values ('2', '1');
+insert into adjusts (claim_id, adjuster_id) values ('1', '1');
+insert into adjusts (claim_id, adjuster_id) values ('3', '1');
+
+/* tied_to */
+Create table tied_to(
+possession_id varchar(8),
+claim_id varchar(8),
+Primary key (possession_id));
+
+insert into tied_to (possession_id, claim_id) values ('1', '1');
+
+/* verify_claim */
+Create table verify_claim(
+claim_id varchar(8),
+policy_id varchar(8),
+Primary key (claim_id));
+
+insert into verify_claim (claim_id, policy_id) values ('1', '3');
+
+/* claim_paid */
+Create table claim_paid(
+paid_id varchar(8),
+claim_id varchar(8),
+paid_amount numeric(10,2),
+date_compensated date,
+primary key (paid_id),
+foreign key (claim_id) references claim);
+
+insert into claim_paid (paid_id, claim_id, paid_amount, date_compensated) values ('1', '2', 150000, '1-Apr-2021');
+
+/* covered */
+Create table covered(
+claim_id varchar(8),
+paid_id varchar(8),
+Primary key (claim_id));
+
+insert into covered (claim_id, paid_id) values ('1', '1');
